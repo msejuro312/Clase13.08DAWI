@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Pruebas Postman - SecurityConfig</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2d3436;
+            padding: 30px 15px;
+            line-height: 1.6;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        header {
+            background: #2c3e50;
+            color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        header h1 { font-size: 1.8em; margin-bottom: 8px; }
+        header p { opacity: 0.9; }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        h3 { color: #2c3e50; margin: 15px 0 8px; font-size: 1.1em; }
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: bold;
+            color: #fff;
+            margin-right: 5px;
+        }
+        .badge-admin { background: #e74c3c; }
+        .badge-user { background: #3498db; }
+        .badge-public { background: #2ecc71; }
+        .code {
+            background: #2d3436;
+            color: #dfe6e9;
+            font-family: Consolas, 'Courier New', monospace;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin: 8px 0;
+        }
+        .code .k { color: #74b9ff; }
+        .code .s { color: #ffeaa7; }
+        .code .c { color: #7f8c8d; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+        th {
+            background: #3498db;
+            color: #fff;
+            padding: 10px 12px;
+            text-align: left;
+        }
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ecf0f1;
+            vertical-align: top;
+        }
+        tr:nth-child(even) { background: #f8f9fa; }
+        .status {
+            font-weight: bold;
+            padding: 2px 10px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+        .s-200 { background: #d4edda; color: #155724; }
+        .s-401 { background: #fff3cd; color: #856404; }
+        .s-403 { background: #f8d7da; color: #721c24; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #f39c12;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin: 12px 0;
+        }
+        .info {
+            background: #e8f4fd;
+            border-left: 4px solid #3498db;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin: 12px 0;
+        }
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin: 8px 0;
+        }
+        ul { margin-left: 20px; }
+        li { margin-bottom: 6px; }
+        .method {
+            display: inline-block;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 0.8em;
+            margin-right: 6px;
+        }
+        .m-get { background: #2ecc71; }
+        .m-post { background: #f39c12; }
+        .m-put { background: #9b59b6; }
+        footer {
+            text-align: center;
+            color: #636e72;
+            font-size: 0.85em;
+            margin-top: 10px;
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .step-num {
+            background: #2c3e50;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <header>
+        <h1>Guía de Pruebas en Postman</h1>
+        <p>Verificación de los cambios en <b>SecurityConfig</b> del proyecto CibertecDemo</p>
+    </header>
+
+    <div class="card">
+        <h2>1. Análisis de tu SecurityConfig</h2>
+        <p>Tu configuración define lo siguiente:</p>
+        <ul>
+            <li>Usuarios en memoria (para <b>HTTP Basic</b>):
+                <span class="badge badge-admin">admin / admin123 (ADMIN)</span>
+                <span class="badge badge-user">user / user123 (USER)</span>
+            </li>
+            <li>Estos usuarios son <b>distintos</b> de los que guardas en tu base de datos (entidad <span class="code" style="display:inline;padding:2px 6px;">Usuario</span>).</li>
+            <li>CSRF deshabilitado y autenticación por <b>HTTP Basic</b>.</li>
+        </ul>
+
+        <h3>Reglas de acceso activas</h3>
+        <div class="code"><span class="c">// Configuración resumida de filterChain</span>
+http
+  <span class="k">.csrf</span>(csrf <span class="k">-></span> csrf.disable())              <span class="c">// CSRF off</span>
+  <span class="k">.authorizeHttpRequests</span>(auth <span class="k">-></span> auth
+      <span class="s">"/api/public/**"</span>          <span class="k">-></span> permitAll
+      <span class="s">"/api/usuarios/registro"</span> <span class="k">-></span> permitAll
+      <span class="s">"/api/auth/login"</span>       <span class="k">-></span> permitAll
+      <span class="s">"/api/productos/**"</span>     <span class="k">-></span> solo ADMIN
+      <span class="s">"/api/listas/**"</span>       <span class="k">-></span> solo USER
+      <span class="s">cualquier otra ruta</span>     <span class="k">-></span> authenticated())</div>
+
+        <div class="note">
+            <b>Ojo (no es un bug, pero confunde):</b> el endpoint <code>/api/auth/login</code> es un login
+            <i>personalizado</i> contra tu BD (correo/clave), <b>separado</b> de la seguridad de Spring.
+            Para probarlo necesitas registrar primero un usuario vía <code>/api/usuarios/registro</code>.
+        </div>
+
+        <div class="info">
+            <b>Datos del entorno:</b> la app corre en el puerto <b>8081</b> y tu MySQL en <b>33065</b>.
+            Base URL para todas las pruebas: <code>http://localhost:8081</code>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>2. Preparación</h2>
+        <div class="step"><div class="step-num">1</div><div>Levanta la aplicación (<code>mvn spring-boot:run</code> o desde tu IDE) con la base de datos corriendo.</div></div>
+        <div class="step"><div class="step-num">2</div><div>Abre Postman y crea una nueva colección, por ejemplo "Cibertec Security".</div></div>
+        <div class="step"><div class="step-num">3</div><div>Para cada request que use autenticación: pestaña <b>Authorization → Type: Basic Auth</b> e ingresa <code>admin/admin123</code> o <code>user/user123</code>.</div></div>
+    </div>
+
+    <div class="card">
+        <h2>3. Matriz de pruebas</h2>
+        <p>Cada caso verifica una regla concreta de tu configuración.</p>
+
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Regla a verificar</th>
+                <th>Petición</th>
+                <th>Auth</th>
+                <th>Esperado</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>permitAll: registro</td>
+                <td><span class="method m-post">POST</span> <code>/api/usuarios/registro</code></td>
+                <td>Ninguna</td>
+                <td><span class="status s-200">200 OK</span></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>permitAll: login custom</td>
+                <td><span class="method m-post">POST</span> <code>/api/auth/login</code></td>
+                <td>Ninguna</td>
+                <td><span class="status s-200">200 OK</span></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>login custom con clave incorrecta</td>
+                <td><span class="method m-post">POST</span> <code>/api/auth/login</code></td>
+                <td>Ninguna</td>
+                <td><span class="status s-401">401</span></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Sin auth, ruta protegida</td>
+                <td><span class="method m-get">GET</span> <code>/api/productos</code></td>
+                <td>Ninguna</td>
+                <td><span class="status s-401">401</span></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>ADMIN accede a productos</td>
+                <td><span class="method m-get">GET</span> <code>/api/productos</code></td>
+                <td>admin</td>
+                <td><span class="status s-200">200 OK</span></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>USER bloqueado en productos</td>
+                <td><span class="method m-get">GET</span> <code>/api/productos</code></td>
+                <td>user</td>
+                <td><span class="status s-403">403</span></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Sin auth, ruta protegida</td>
+                <td><span class="method m-get">GET</span> <code>/api/listas/usuario/1</code></td>
+                <td>Ninguna</td>
+                <td><span class="status s-401">401</span></td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>USER accede a listas</td>
+                <td><span class="method m-get">GET</span> <code>/api/listas/usuario/1</code></td>
+                <td>user</td>
+                <td><span class="status s-200">200 OK</span> o <span class="status s-200">204</span> si está vacío</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>ADMIN bloqueado en listas</td>
+                <td><span class="method m-get">GET</span> <code>/api/listas/usuario/1</code></td>
+                <td>admin</td>
+                <td><span class="status s-403">403</span></td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>anyRequest → authenticated</td>
+                <td><span class="method m-get">GET</span> <code>/api/usuarios</code></td>
+                <td>Ninguna</td>
+                <td><span class="status s-401">401</span></td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>Cualquier rol autenticado</td>
+                <td><span class="method m-get">GET</span> <code>/api/usuarios</code></td>
+                <td>admin o user</td>
+                <td><span class="status s-200">200 OK</span></td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>CSRF deshabilitado (POST sin token)</td>
+                <td><span class="method m-post">POST</span> <code>/api/productos/lote</code></td>
+                <td>admin</td>
+                <td><span class="status s-200">200 OK</span></td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>Credenciales inválidas</td>
+                <td><span class="method m-get">GET</span> <code>/api/productos</code></td>
+                <td>admin/incorrecta</td>
+                <td><span class="status s-401">401</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>4. Cuerpos JSON de ejemplo</h2>
+
+        <h3>Petición 1 — Registro de usuario (pública)</h3>
+        <div class="code">{ "nombre": "Juan", "correo": "juan@mail.com", "clave": "12345" }</div>
+
+        <h3>Petición 2 — Login personalizado (pública)</h3>
+        <div class="code">{ "correo": "juan@mail.com", "clave": "12345" }</div>
+
+        <h3>Petición 12 — Registrar lote de productos (requiere ADMIN)</h3>
+        <div class="code">[ { "nombre": "Lapiz", "precio": 2.5 }, { "nombre": "Cuaderno", "precio": 8.0 } ]</div>
+    </div>
+
+    <div class="card">
+        <h2>5. Interpretación de resultados</h2>
+        <ul>
+            <li>Si los casos <b>1 al 3</b> responden correctamente → tus rutas <code>permitAll</code> funcionan.</li>
+            <li>Los casos <b>4 al 9</b> validan el control por roles:
+                <b>401</b> = no autenticado, <b>403</b> = autenticado pero sin el rol necesario.</li>
+            <li>Los casos <b>10 y 11</b> validan el fallback <code>authenticated()</code>.</li>
+            <li>El caso <b>12</b> confirma que el CSRF no interfiere en las peticiones.</li>
+            <li>El caso <b>13</b> verifica el rechazo de credenciales incorrectas.</li>
+        </ul>
+
+        <div class="success">
+            <b>Todo correcto si:</b> tus respuestas coinciden exactamente con la columna "Esperado".
+            Cualquier diferencia (ej. un 401 donde esperabas 200) indica un problema en la regla correspondiente.
+        </div>
+    </div>
+
+    <footer>Guía didáctica - Proyecto CibertecDemo - Spring Boot + Spring Security</footer>
+</div>
+</body>
+</html>
