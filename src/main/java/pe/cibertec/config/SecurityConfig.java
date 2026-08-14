@@ -44,10 +44,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/public/**",
-                                "/api/usuario/registro",
+                                "/api/usuarios/registro",
                                 "/api/auth/login"
                         ).permitAll()
-                        .requestMatchers("/api/producto/**").hasAllRoles("ADMIN") // solo admin
+                        .requestMatchers("/api/productos/**").hasAllRoles("ADMIN") // solo admin
                         .requestMatchers("/api/listas/**").hasAllRoles("USER") // solo user
                         .anyRequest().authenticated()
 
