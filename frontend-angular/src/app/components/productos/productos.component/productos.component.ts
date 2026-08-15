@@ -18,14 +18,18 @@ export class ProductosComponent implements OnInit {
   ngOnInit(): void {
     console.log("Iniciando carga de productos..");
     this.productoService.obtenerProducto().subscribe({
-      next: {
-        
+      next: (data ) => {
+        console.log("Datos recibidos de la API: ",data);
+        this.productos = data;
+        this.cargando = false;
       },
-      error:{
+      error: (err)=>{
+        console.error("Error al obtener productos: ", err);
+        this.cargando = false;
 
       },
-      complete:{
-
+      complete:()=>{
+        console.log("Carga de productos completada");
       }
     });
 
