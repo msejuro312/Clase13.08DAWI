@@ -1,6 +1,6 @@
 <h2>Listado de productos</h2>
 <div *ngIf="cargando">Cargando...</div>
-<table *ngIf="!cargando && productos.length > 0" border="1">
+<table class="table table-bordered" *ngIf="!cargando && productos.length > 0">
   <thead>
     <tr>
       <th>Id</th>

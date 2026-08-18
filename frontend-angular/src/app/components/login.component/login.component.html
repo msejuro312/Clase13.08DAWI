@@ -1,1 +1,10 @@
-<p>login.component works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <input class="form-control mt-5" [(ngModel)]="correo" type="email" placeholder="Correo"/>
+      <input class="form-control mt-5" [(ngModel)]="clave" type="password" placeholder="Clave"/>
+      <button class="btn btn-primary mt-5" (click)="iniciarSesion()">Iniciar sesión</button>
+
+    </div>
+  </div>
+</div>
